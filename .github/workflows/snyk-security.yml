@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ "main" ]
 
+permissions:
+  contents: read
+  security-events: write
+
 jobs:
   security:
     runs-on: ubuntu-latest
@@ -30,10 +34,10 @@ jobs:
       - name: Auth Snyk
         run: snyk auth ${{ secrets.SNYK_TOKEN }}
 
-      # Escaneo de dependencias (requirements.txt)
+      # Escaneo dependencias
       - name: Snyk Open Source Test
         run: snyk test --file=requirements.txt || true
 
-      # Escaneo de código (Snyk Code)
+      # Escaneo de código
       - name: Snyk Code Test
         run: snyk code test || true
